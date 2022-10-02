@@ -51,7 +51,25 @@ function dados_cliente(){
     }).then(function (result){
         return result.json()
     }).then(function (data){
-        console.log('teste')
+        console.log(data)
+        document.getElementById('form_att_cliente').style.display = 'block'
+
+        nome = document.getElementById('nome')
+        nome.value = data['nome']
+
+        sobrenome = document.getElementById('sobrenome')
+        sobrenome.value = data['sobrenome']
+
+        email = document.getElementById('email')
+        email.value = data['email']
+
+        cpf = document.getElementById('cpf')
+        cpf.value = data['cpf']
+        if(data == ""){
+            document.getElementById('form_att_cliente').style.display = 'none'
+        }
+
+
     })
 
 }

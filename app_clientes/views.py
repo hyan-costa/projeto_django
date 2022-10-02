@@ -3,6 +3,8 @@ import re
 from django.http import JsonResponse
 from django.shortcuts import render, HttpResponse
 from . import models
+from django.core import serializers
+import json
 def clientes(request):
     if request.method == 'GET':
         td_clientes = models.Cliente.objects.all()
@@ -41,5 +43,8 @@ def clientes(request):
         return render(request, 'clientes.html')
 
 def att_cliente(request):
-    print('test')
-    return JsonResponse({"teste":1})
+    id_cliente = request.POST.get('cliente_pk')
+    cliente = models.Cliente.objects.filter(pk=id_cliente)
+    cliente_json = json.loads(serializers.serialize('json',cliente))[0]['fields']
+    print(cliente_json)
+    return JsonResponse(cliente_json)

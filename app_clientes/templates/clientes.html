@@ -74,6 +74,28 @@
                     <option value="{{ ciente.pk }}">{{ ciente }}</option>
                 {% endfor %}
             </select>
+            <hr style="background-color:gray;">
+            <br>
+            <div id="form_att_cliente" style="display: none">
+
+                  <p>Nome:</p>
+                  <input type="text" class="form-control" placeholder="Primeiro nome" name="nome" id="nome" required>
+
+
+                  <p>Sobrenome:</p>
+                  <input type="text" class="form-control" placeholder="Sobrenome" name="sobrenome" id="sobrenome">
+
+                <br>
+
+                    <p>E-mail:</p>
+                    <input type="email" class="form-control" placeholder="nome@email.com" name="email"id="email">
+
+                <br>
+
+                    <p>CPF:</p>
+                    <input type="text" class="form-control" placeholder="___.___.___-__" name="cpf" id="cpf" required>
+
+            </div>
         </div>
     </div>
     <script src="{% static 'clientes/js/clientes.js' %}"></script>
