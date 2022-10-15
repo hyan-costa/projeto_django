@@ -20,6 +20,7 @@
             <form action="{% url "clientes" %}" method="POST">
                 {% csrf_token %}
                 <div class="col-md">
+
                   <p>Nome:</p>
                   <input type="text" class="form-control" placeholder="Primeiro nome" name="nome" value="{{ nome }}" required>
                 </div>
@@ -94,6 +95,11 @@
 
                     <p>CPF:</p>
                     <input type="text" class="form-control" placeholder="___.___.___-__" name="cpf" id="cpf" required>
+                <hr style="background-color:gray;">
+                <h4>Carros</h4>
+                <div class="row" id="carros">
+
+                </div>
 
             </div>
         </div>

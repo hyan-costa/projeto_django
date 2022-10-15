@@ -1,10 +1,16 @@
 import re
 
 from django.http import JsonResponse
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
+from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse
 from . import models
 from django.core import serializers
 import json
+
+#-----------------------------------------------------------------------------------------------------------------------
+# add clientes
+#-----------------------------------------------------------------------------------------------------------------------
 def clientes(request):
     if request.method == 'GET':
         td_clientes = models.Cliente.objects.all()
@@ -42,9 +48,54 @@ def clientes(request):
             car.save()
         return render(request, 'clientes.html')
 
+
+#-----------------------------------------------------------------------------------------------------------------------
+# altera os dados do cliente
+#-----------------------------------------------------------------------------------------------------------------------
 def att_cliente(request):
     id_cliente = request.POST.get('cliente_pk')
     cliente = models.Cliente.objects.filter(pk=id_cliente)
+    carros = models.Carro.objects.filter(cliente=cliente[0])
+
     cliente_json = json.loads(serializers.serialize('json',cliente))[0]['fields']
-    print(cliente_json)
-    return JsonResponse(cliente_json)
+    carro_json = json.loads(serializers.serialize('json',carros))
+    carro_json = [{'fields': x['fields'], 'id_carro':x['pk']}for x in carro_json]
+
+    data = {'cliente':cliente_json, 'carros':carro_json}
+    return JsonResponse(data)
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+#aletra dados do carro
+#-----------------------------------------------------------------------------------------------------------------------
+@csrf_exempt
+def update_carro(request,id):
+    nome_carro = request.POST.get('carro')
+
+    placa = request.POST.get('placa')
+    ano = request.POST.get('ano')
+    list_placa = models.Carro.objects.exclude(id=id).filter(placa=placa)
+
+    if list_placa.exists():
+        return HttpResponse('placa já existente!')
+    carro = models.Carro.objects.get(id=id)
+    print(carro)
+    print(id)
+    carro.placa = placa
+    carro.ano = ano
+    carro.carro = nome_carro
+    carro.save()
+    return HttpResponse('salvo com sucesso!')
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# exclui carro
+#-----------------------------------------------------------------------------------------------------------------------
+
+def excluir_carro(request, id):
+    try:
+        carro = models.Carro.objects.get(id=id)
+        carro.delete()
+        return redirect(reverse('clientes')+f'?aba=att_cliente&id_cliente={id}')
+    except:
+        return HttpResponse(redirect(reverse('clientes')))
