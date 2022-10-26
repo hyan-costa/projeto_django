@@ -17,6 +17,13 @@
         </div>
         <br>
         <div id="adicionar_cliente">
+            {% if messages %}
+                {% for m in messages %}
+                    <div class="alert alert-warning" role="alert">
+                      <p style="text-align: center">{{ m }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
             <form action="{% url "clientes" %}" method="POST">
                 {% csrf_token %}
                 <div class="col-md">
@@ -37,6 +44,11 @@
                 <div class="col-md">
                 <p>CPF:</p>
                 <input type="text" class="form-control" placeholder="___.___.___-__" name="cpf" value="{{ cpf }}" required>
+                </div>
+                <br>
+                <div class="col-md">
+                <p>CEP:</p>
+                <input type="text" class="form-control" placeholder="0000000-000" name="cep" value="{{ cep }}" required>
                 </div>
                 <hr style="background-color:gray;">
                 <div class="add-carros">
@@ -62,7 +74,7 @@
                 </div>
 
                 <br>
-                <input type="submit" value="Cadastrar" class="btn-principal">
+                <input value="cadastrar" type="submit" class="btn-principal botao-cadastrar">
 
             </form>
         </div>

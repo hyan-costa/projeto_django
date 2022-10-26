@@ -5,6 +5,7 @@ class Cliente(models.Model):
     sobrenome = models.CharField(max_length=100)
     cpf = models.CharField(max_length=12)
     email = models.EmailField(max_length=100)
+
     def __str__(self) -> str:
         return self.nome
 
@@ -19,3 +20,12 @@ class Carro(models.Model):
 
     def __str__(self) -> str:
         return self.carro
+
+class Endereco(models.Model):
+    uf = models.CharField(max_length=255)
+    localidade = models.CharField(max_length=255)
+    logradouro = models.CharField(max_length=255)
+    pessoa = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.localidade
