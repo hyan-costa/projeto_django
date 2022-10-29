@@ -55,7 +55,7 @@ def clientes(request):
         cep = request.POST.get('cep')
         if cep:
             pk = cliente.pk
-            add_cep(cep,pk)
+            add_cep(request,cep,pk)
 
         #------------salva os carros
         for carro, placa, ano in tupla:
@@ -63,9 +63,21 @@ def clientes(request):
             car.save()
         return render(request, 'clientes.html',context)
 
-
 #-----------------------------------------------------------------------------------------------------------------------
-# retorna os dados do cliente
+# Retorna o endereco residencial para carregar no front
+#-----------------------------------------------------------------------------------------------------------------------
+@csrf_exempt
+def retorna_cep(request):
+
+    cep = request.POST.get("cep_value")
+    cep_valor = add_cep(None,cep,None)
+
+    cep_json = json.dumps(cep_valor)
+    cep_json = json.loads(cep_json)
+
+    return JsonResponse(cep_json, safe=False)
+#-----------------------------------------------------------------------------------------------------------------------
+# retorna os dados do cliente para fazer alteracoes
 #-----------------------------------------------------------------------------------------------------------------------
 def att_cliente(request):
     id_cliente = request.POST.get('cliente_pk')

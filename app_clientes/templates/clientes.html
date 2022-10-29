@@ -48,7 +48,23 @@
                 <br>
                 <div class="col-md">
                 <p>CEP:</p>
-                <input type="text" class="form-control" placeholder="0000000-000" name="cep" value="{{ cep }}" required>
+                <input type="text" class="form-control" placeholder="0000000-000" name="cep" onchange="get_cep(this.value)" value="{{ cep }}">
+                </div>
+
+                <br>
+                <div class="col-md">
+                <p>Estado:</p>
+                <input id="uf" type="text" class="form-control"  name="uf" >
+                </div>
+                <br>
+                <div class="col-md">
+                <p>Cidade:</p>
+                <input id="localidade" type="text" class="form-control" name="localidade">
+                </div>
+                <br>
+                <div class="col-md">
+                <p>Logradouro:</p>
+                <input id="logradouro" type="text" class="form-control"  name="logradouro" >
                 </div>
                 <hr style="background-color:gray;">
                 <div class="add-carros">

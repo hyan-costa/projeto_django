@@ -1,8 +1,20 @@
 import requests
 from app_clientes.models import Endereco, Cliente
-def add_cep(cep,pk):
+#-----------------------------------------------------------------------------------------------------------------------
+# essa function retorna um dict do endereco do cep somente se pk==None. Caso seja passada a pk, será salvo os dados no banco
+#                                       pk == fk_cliente_id
+#-----------------------------------------------------------------------------------------------------------------------
+def add_cep(request,cep,pk):
     url_cep = 'https://viacep.com.br/ws/'+ cep +'/json/'
     cep_json = requests.get(url_cep).json()
-    cliente = Cliente.objects.get(pk=pk)
-    dados = Endereco(pessoa=cliente, localidade=cep_json['localidade'], logradouro=cep_json['logradouro'], uf=cep_json['uf'])
-    dados.save()
+    if pk:
+        uf = request.POST.get('uf')
+        localidade = request.POST.get('localidade')
+        logradouro = request.POST.get('logradouro')
+        cliente = Cliente.objects.get(pk=pk)
+
+        dados = Endereco(pessoa=cliente, localidade=localidade, logradouro=logradouro, uf=uf)
+        dados.save()
+    else:
+        endereco = dict(localidade=cep_json['localidade'], logradouro=cep_json['logradouro'],uf=cep_json['uf'])
+        return endereco
