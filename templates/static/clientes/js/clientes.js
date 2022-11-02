@@ -1,7 +1,7 @@
 
 //----------------------------------exibe o form add carro--------------------------------------------------------------
 function add_carro(){
-
+    console.log('asdfasdf')
     container = document.getElementById("form-carro")
 
     html = "<br><div class='row'> " +
@@ -48,8 +48,7 @@ function dados_cliente(){
     }).then(function (result){
         return result.json()
     }).then(function (data){
-        console.log(typeof(data))
-        console.log(data)
+
         document.getElementById('form_att_cliente').style.display = 'block'
 
         nome = document.getElementById('nome')
