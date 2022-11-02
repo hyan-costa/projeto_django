@@ -21,6 +21,7 @@ def clientes(request):
     elif request.method == 'POST':
         context = {}
         td_clientes = models.Cliente.objects.all()
+        alerta = ''
         nome = request.POST.get('nome')
         sobrenome = request.POST.get('sobrenome')
         email = request.POST.get('email')

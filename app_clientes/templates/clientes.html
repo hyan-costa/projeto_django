@@ -124,24 +124,7 @@
                     <p>CPF:</p>
                     <input type="text" class="form-control" placeholder="___.___.___-__" name="cpf" id="cpf" required>
                 <hr style="background-color:gray;">
-                <h4>Carros</h4><span class="btn-add-carros" onclick="add_carro()">+ Adicionar um carro</span>
-                    <div id="form-carro">
-                        {% for carro, placa, ano in carros %}
-                        <br><div class="row">
-                            <div class="col-md">
-                                <input type='text' placeholder='carro' class='form-control' name='carro' value="{{ carro }}">
-                            </div>
-
-                            <div class="col-md">
-                                <input type='text' placeholder='Placa' class='form-control' name='placa' value="{{ placa }}">
-                            </div>
-
-                            <div class="col-md">
-                                <input type='date' placeholder='ano' class='form-control' name='ano' value="{{ ano }}">
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div><br>
+                <h4>Carros</h4>
                 <div class="row" id="carros">
 
                 </div>

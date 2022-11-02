@@ -1,7 +1,7 @@
 import requests
 from app_clientes.models import Endereco, Cliente
 #-----------------------------------------------------------------------------------------------------------------------
-# essa funcao retorna um dict com endereco do cep somente se pk==None. Caso seja passada a pk, os dados será salvo no banco
+# essa function retorna um dict do endereco do cep somente se pk==None. Caso seja passada a pk, será salvo os dados no banco
 #                                       pk == fk_cliente_id
 #-----------------------------------------------------------------------------------------------------------------------
 def add_cep(request,cep,pk):
