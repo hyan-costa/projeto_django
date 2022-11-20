@@ -1,0 +1,20 @@
+
+<table id="table_id" class="table table-dark display" >
+    <thead>
+    <tr>
+        <th scope="col">Nome</th>
+        <th scope="col">test</th>
+        <th scope="col">Qtde Carros</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for cliente in grid_clientes  %}
+            <tr>
+                <th scope="row">{{ cliente.pk }}</th>
+                <td>{{ cliente.nome }} {{ cliente.sobrenome }}</td>
+                <td>{{ cliente.qtde_carros }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+

@@ -1,0 +1,40 @@
+<p>Nome</p>
+<select id="cliente_pk" onchange="dados_cliente()" class="form-control">
+    <option value="">----</option>
+    {% for cliente in clientes %}
+        <option value="{{ cliente.pk }}">{{ cliente }}</option>
+    {% endfor %}
+</select>
+<hr style="background-color:gray;">
+<br>
+<div id="form_att_cliente" style="display: none">
+
+      <p>Nome:</p>
+      <input type="text" class="form-control" placeholder="Primeiro nome" name="nome" id="nome" required>
+
+
+      <p>Sobrenome:</p>
+      <input type="text" class="form-control" placeholder="Sobrenome" name="sobrenome" id="sobrenome">
+
+    <br>
+
+        <p>E-mail:</p>
+        <input type="email" class="form-control" placeholder="nome@email.com" name="email"id="email">
+
+    <br>
+
+        <p>CPF:</p>
+        <input type="text" class="form-control" placeholder="___.___.___-__" name="cpf" id="cpf" required>
+    <hr style="background-color:gray;">
+    <h4>Carros</h4><span class="btn-add-carros" onclick="add_carro()">+ Adicionar um carro</span>
+        <div id="form-carro">
+
+            <div id="form-carro">
+
+            </div>
+        </div><br>
+    <div class="row" id="carros">
+
+    </div>
+
+</div>

@@ -1,0 +1,19 @@
+<table id="table_id" class="table table-dark" >
+    <thead>
+    <tr>
+        <th scope="col">Código</th>
+        <th scope="col">Nome</th>
+        <th scope="col">CPF</th>
+
+    </tr>
+    </thead>
+    <tbody>
+        {% for funcionario in funcionarios %}
+            <tr>
+                <th scope="row">{{ funcionario.pk }}</th>
+                <td>{{ funcionario.nome }}</td>
+                <td>{{ funcionario.cpf }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

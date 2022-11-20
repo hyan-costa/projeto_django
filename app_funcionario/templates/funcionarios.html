@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block 'head' %}
+    <link rel="stylesheet" href="{% static 'funcionarios/css/funcionarios.css' %}">
+{% endblock %}
+
+{% block 'dashboard' %}
+    <div class="container">
+        <h2>Funcionários</h2><br>
+        <!-- Botão para acionar modal -->
+        <button style="color: #FFFFFF"  type="button" class="btn btn-modal" data-toggle="modal" data-target="#modalfuncionarios">
+          Incluir
+        </button>
+    </div>
+    <div class="container">
+        {% include 'grid_funcionarios.html' %}
+    </div>
+
+
+{% endblock %}
+{% block 'modais' %}
+    {% include 'modal_funcionarios.html' %}
+{% endblock %}
+{% block 'scripts' %}
+    <script src="{% static 'funcionarios/js/funcionarios.js' %}"></script>
+{% endblock %}

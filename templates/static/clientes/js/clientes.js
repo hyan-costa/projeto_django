@@ -3,7 +3,7 @@
 function add_carro(){
     console.log('asdfasdf')
     container = document.getElementById("form-carro")
-
+    container2 = document.getElementById("form-carro-altera")
     html = "<br><div class='row'> " +
                     "<div class='col-md'>" +
                         "<input type='text' placeholder='carro' class='form-control' name='carro'>" +
@@ -19,19 +19,27 @@ function add_carro(){
 
 
 }
-//------------------------------exibe um dos dois forms-----------------------------------------------------------------
-function exibir_form(tipo){
 
-    atualizar_cliente = document.getElementById('atualizar_cliente')
-    adicionar_cliente = document.getElementById('adicionar_cliente')
+
+atualizar_cliente = document.getElementById('atualizar_cliente')
+adicionar_cliente = document.getElementById('adicionar_cliente')
+
+atualizar_cliente.style.display ="none"
+adicionar_cliente.style.display ="none"
+//------------------------------exibe um dos dois forms e tira o grid clientes------------------------------------------
+
+function exibir_form(tipo){
+    grid_clientes = document.getElementById("grid_clientes")
     if(tipo == "1"){
         atualizar_cliente.style.display ="none"
         adicionar_cliente.style.display ="block"
+        grid_clientes.style.display = "none"
     }
     else if(tipo == "2"){
 
         adicionar_cliente.style.display ="none"
         atualizar_cliente.style.display ="block"
+        grid_clientes.style.display = "none"
     }
 }
 
@@ -112,12 +120,48 @@ function get_cep(cep){
         }).then(function (response){
             return response.json()
     }).then(function (data){
-        uf = document.getElementById('uf')
-        localidade = document.getElementById('localidade')
-        logradouro = document.getElementById('logradouro')
+        erros_input = document.getElementById('cep_validacao')
+        div_cep = document.getElementById('div_cep')
+        //uf = document.getElementById('uf')
+        //localidade = document.getElementById('localidade')
+        //logradouro = document.getElementById('logradouro')
+        dados_cep = document.getElementById('dados_cep')
+        //retorna cep inválido ou dados do endereco
+        if(data['cep_invalido']){
+            console.log( data['cep_invalido'])
+            erros_input.className = "form-control is-invalid"
+            div_cep.className = "invalid-feedback"
+            div_cep.innerText = data['cep_invalido']
+        }
+        else {
+            erros_input.className = "form-control"
+            // uf.value = data['uf']
+            // localidade.value = data['localidade']
+            // logradouro.value = data['logradouro']
+            dados_cep.innerHTML = "<br>\
+                <div class='col-md'>\
+                    <p>Estado:</p>\
+                    <input id='uf' type='text' class='form-control' name='uf' value='"+data['uf']+"'>\
+                </div>\
+                <br>\
+                <div class='col-md'>\
+                    <p>Cidade:</p>\
+                    <input id='localidade' type='text' class='form-control' name='localidade' value='"+data['localidade']+"'>\
+                </div>\
+                <br>\
+                <div class='col-md'>\
+                    <p>Logradouro:</p>\
+                    <input id='logradouro' type='text' class='form-control' name='logradouro' value='"+data['logradouro']+"'>\
+                </div>"
 
-        uf.value = data['uf']
-        localidade.value = data['localidade']
-        logradouro.value = data['logradouro']
+
+
+
+        }
+
     })
 }
+//plugin para a paginação das tabelas
+$(document).ready(function () {
+    $('#table_id').DataTable();
+});

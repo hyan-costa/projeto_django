@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-@!4ho10w7ep%#w)&+x3d%c*4a=(4xmj_e6m_)-gpt&q7e&8#t3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0','127.0.0.1']
 
 
 # Application definition
@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app_clientes',
     'app_servicos',
+    'app_funcionario',
+    'autenticacao',
 
 ]
 
@@ -129,6 +131,13 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "templates/static",
 ]
+
+
+LOGIN_URL = 'autenticacao:login'
+LOGOUT_REDIRECT_URL = 'logout'
+
+
+
 
 STATIC_ROOT = os.path.join('static')
 

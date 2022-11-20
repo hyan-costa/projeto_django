@@ -1,5 +1,5 @@
 import re
-
+from django.contrib.auth.decorators import login_required
 from app_clientes.cep.cep import add_cep
 from django.contrib import messages
 from django.http import JsonResponse
@@ -12,12 +12,29 @@ from django.core import serializers
 import json
 
 #-----------------------------------------------------------------------------------------------------------------------
-# add clientes
+# add clientes ou retorna todos os clientes para o grid
 #-----------------------------------------------------------------------------------------------------------------------
+@login_required(login_url="/autenticacao/login")
 def clientes(request):
+
     if request.method == 'GET':
         td_clientes = models.Cliente.objects.all()
-        return render(request,'clientes.html',{'clientes':td_clientes})
+        lista_clientes = list()
+
+        for obj_cliente in td_clientes:
+
+            carros = models.Carro.objects.filter(cliente_id=obj_cliente.pk)
+            qtde_carros = len(carros)
+            obj_cliente.qtde_carros = qtde_carros
+            lista_clientes.append(obj_cliente)
+
+        context = dict(
+            grid_clientes=lista_clientes,
+            clientes=td_clientes
+        )
+        return render(request,'clientes.html',context)
+
+
     elif request.method == 'POST':
         context = {}
         td_clientes = models.Cliente.objects.all()
@@ -73,19 +90,23 @@ def retorna_cep(request):
 
     cep_json = json.dumps(cep_valor)
     cep_json = json.loads(cep_json)
-
     return JsonResponse(cep_json, safe=False)
 #-----------------------------------------------------------------------------------------------------------------------
 # retorna os dados do cliente para fazer alteracoes
 #-----------------------------------------------------------------------------------------------------------------------
 def att_cliente(request):
+
     id_cliente = request.POST.get('cliente_pk')
     cliente = models.Cliente.objects.filter(pk=id_cliente)
     carros = models.Carro.objects.filter(cliente=cliente[0])
+    endereco = models.Endereco.objects.filter(pessoa=cliente[0])
 
     cliente_json = json.loads(serializers.serialize('json',cliente))[0]['fields']
     carro_json = json.loads(serializers.serialize('json',carros))
     carro_json = [{'fields': x['fields'], 'id_carro':x['pk']}for x in carro_json]
+    endereco_json = json.loads(serializers.serialize('json',endereco))
+    #print(endereco_json[0]['fields'])
+
 
     data = {'cliente':cliente_json, 'carros':carro_json}
     return JsonResponse(data)
@@ -97,6 +118,7 @@ def att_cliente(request):
 #-----------------------------------------------------------------------------------------------------------------------
 @csrf_exempt
 def update_carro(request,id):
+
     nome_carro = request.POST.get('carro')
     placa = request.POST.get('placa')
     ano = request.POST.get('ano')
@@ -113,12 +135,12 @@ def update_carro(request,id):
     context = {'salva_pessoa':'salvo com sucesso!'}
     return redirect(reverse('clientes')+f'?aba=att_cliente&id_cliente={id}',context)
 
-
 #-----------------------------------------------------------------------------------------------------------------------
 # exclui carro
 #-----------------------------------------------------------------------------------------------------------------------
 
 def excluir_carro(request, id):
+
     try:
         carro = models.Carro.objects.get(id=id)
         carro.delete()

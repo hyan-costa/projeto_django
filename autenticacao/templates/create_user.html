@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'head' %}
+{% endblock %}
+
+
+{% block 'dashboard' %}
+
+    <div id="add_usuario" class="container">
+        <div class="col-md">
+            {% if messages %}
+                {% for m in messages %}
+                    <div class="alert alert-warning" role="alert">
+                      <p style="text-align: center">{{ m }}</p>
+                    </div>
+                {% endfor %}
+            {% elif alerta %}
+                <div class="alert alert-warning" role="alert">
+                  <p style="text-align: center">{{ alerta }}</p>
+                </div>
+            {% endif %}
+        </div>
+        <form action="{% url "create_user" %}" method="POST">
+            {% csrf_token %}
+            <div class="col-md">
+              <p>Nome:</p>
+              <input type="text" class="form-control" placeholder="Nome" name="nome" required>
+            </div>
+            <br>
+            <div class="col-md">
+              <p>Email:</p>
+              <input type="email" class="form-control" placeholder="email" name="email" required>
+            </div>
+            <br>
+            <div class="col-md">
+              <p>Senha:</p>
+              <input type="password" class="form-control" placeholder="senha" name="senha" required>
+            </div>
+            <br>
+            <div class="col-md">
+              <p>Confirme a Senha:</p>
+              <input type="password" class="form-control" placeholder="confirme a senha" name="confirma_senha">
+            </div>
+            <br>
+            <button type="submit" class="btn btn-outline-success" style="width:90;height:10"> criar</button>
+        </form>
+    </div>
+
+{% endblock %}

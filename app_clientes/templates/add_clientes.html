@@ -1,0 +1,69 @@
+{% if messages %}
+    {% for m in messages %}
+        <div class="alert alert-warning" role="alert">
+          <p style="text-align: center">{{ m }}</p>
+        </div>
+    {% endfor %}
+{% endif %}
+<form action="{% url "clientes" %}" method="POST">
+    {% csrf_token %}
+    <div class="col-md">
+
+      <p>Nome:</p>
+      <input type="text" class="form-control" placeholder="Primeiro nome" name="nome" value="{{ nome }}" required>
+    </div>
+    <br>
+    <div class="col-md">
+      <p>Sobrenome:</p>
+      <input type="text" class="form-control" placeholder="Sobrenome" name="sobrenome" value="{{ sobrenome }}">
+    </div>
+    <br>
+    <div class="col-md">
+        <p>E-mail:</p>
+        <input type="email" class="form-control" placeholder="nome@email.com" name="email" value="{{ email }}">
+
+    </div>
+    <br>
+    <div class="col-md">
+        <p>CPF:</p>
+        <input type="text" class="form-control" placeholder="___.___.___-__" name="cpf" value="{{ cpf }}" required>
+    </div>
+    <br>
+    <div class="col-md" >
+        <p>CEP:</p>
+        <input id="cep_validacao" type="text" class="form-control" placeholder="00000-000" name="cep" onchange="get_cep(this.value)" value="{{ cep }}">
+        <div id="div_cep">
+
+        </div>
+    </div>
+    <div id="dados_cep" >
+        <!--endereço-->
+    </div>
+
+    <hr style="background-color:gray;">
+    <div class="add-carros">
+        <h3>Carros</h3>
+        <span class="btn-add-carros" onclick="add_carro()">+ Adicionar um carro</span>
+        <div id="form-carro">
+            {% for carro, placa, ano in carros %}
+            <br><div class="row">
+                <div class="col-md">
+                    <input type='text' placeholder='carro' class='form-control' name='carro' value="{{ carro }}">
+                </div>
+
+                <div class="col-md">
+                    <input type='text' placeholder='Placa' class='form-control' name='placa' value="{{ placa }}">
+                </div>
+
+                <div class="col-md">
+                    <input type='date' placeholder='ano' class='form-control' name='ano' value="{{ ano }}">
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <br>
+    <input value="cadastrar" type="submit" class="btn-principal botao-cadastrar">
+
+</form>

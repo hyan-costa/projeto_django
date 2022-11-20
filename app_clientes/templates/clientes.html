@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 {% load static %}
 {% block 'head' %}
@@ -16,138 +15,25 @@
             </div>
         </div>
         <br>
-        <div id="adicionar_cliente">
-            {% if messages %}
-                {% for m in messages %}
-                    <div class="alert alert-warning" role="alert">
-                      <p style="text-align: center">{{ m }}</p>
-                    </div>
-                {% endfor %}
-            {% endif %}
-            <form action="{% url "clientes" %}" method="POST">
-                {% csrf_token %}
-                <div class="col-md">
 
-                  <p>Nome:</p>
-                  <input type="text" class="form-control" placeholder="Primeiro nome" name="nome" value="{{ nome }}" required>
-                </div>
-                <div class="col-md">
-                  <p>Sobrenome:</p>
-                  <input type="text" class="form-control" placeholder="Sobrenome" name="sobrenome" value="{{ sobrenome }}">
-                </div>
-                <br>
-                <div class="col-md">
-                    <p>E-mail:</p>
-                    <input type="email" class="form-control" placeholder="nome@email.com" name="email" value="{{ email }}">
-                </div>
-                <br>
-                <div class="col-md">
-                <p>CPF:</p>
-                <input type="text" class="form-control" placeholder="___.___.___-__" name="cpf" value="{{ cpf }}" required>
-                </div>
-                <br>
-                <div class="col-md">
-                <p>CEP:</p>
-                <input type="text" class="form-control" placeholder="0000000-000" name="cep" onchange="get_cep(this.value)" value="{{ cep }}">
-                </div>
-
-                <br>
-                <div class="col-md">
-                <p>Estado:</p>
-                <input id="uf" type="text" class="form-control"  name="uf" >
-                </div>
-                <br>
-                <div class="col-md">
-                <p>Cidade:</p>
-                <input id="localidade" type="text" class="form-control" name="localidade">
-                </div>
-                <br>
-                <div class="col-md">
-                <p>Logradouro:</p>
-                <input id="logradouro" type="text" class="form-control"  name="logradouro" >
-                </div>
-                <hr style="background-color:gray;">
-                <div class="add-carros">
-                    <h3>Carros</h3>
-                    <span class="btn-add-carros" onclick="add_carro()">+ Adicionar um carro</span>
-                    <div id="form-carro">
-                        {% for carro, placa, ano in carros %}
-                        <br><div class="row">
-                            <div class="col-md">
-                                <input type='text' placeholder='carro' class='form-control' name='carro' value="{{ carro }}">
-                            </div>
-
-                            <div class="col-md">
-                                <input type='text' placeholder='Placa' class='form-control' name='placa' value="{{ placa }}">
-                            </div>
-
-                            <div class="col-md">
-                                <input type='date' placeholder='ano' class='form-control' name='ano' value="{{ ano }}">
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <br>
-                <input value="cadastrar" type="submit" class="btn-principal botao-cadastrar">
-
-            </form>
+        <div id="grid_clientes">
+            {% include 'grid.html' %}
         </div>
+
+        <div id="adicionar_cliente">
+            {% include 'add_clientes.html' %}
+        </div>
+
         <div  id="atualizar_cliente">
 
-            <p>Nome</p>
-            <select id="cliente_pk" onchange="dados_cliente()" class="form-control">
-                <option value="">----</option>
-                {% for ciente in clientes %}
-                    <option value="{{ ciente.pk }}">{{ ciente }}</option>
-                {% endfor %}
-            </select>
-            <hr style="background-color:gray;">
-            <br>
-            <div id="form_att_cliente" style="display: none">
-
-                  <p>Nome:</p>
-                  <input type="text" class="form-control" placeholder="Primeiro nome" name="nome" id="nome" required>
-
-
-                  <p>Sobrenome:</p>
-                  <input type="text" class="form-control" placeholder="Sobrenome" name="sobrenome" id="sobrenome">
-
-                <br>
-
-                    <p>E-mail:</p>
-                    <input type="email" class="form-control" placeholder="nome@email.com" name="email"id="email">
-
-                <br>
-
-                    <p>CPF:</p>
-                    <input type="text" class="form-control" placeholder="___.___.___-__" name="cpf" id="cpf" required>
-                <hr style="background-color:gray;">
-                <h4>Carros</h4><span class="btn-add-carros" onclick="add_carro()">+ Adicionar um carro</span>
-                    <div id="form-carro">
-                        {% for carro, placa, ano in carros %}
-                        <br><div class="row">
-                            <div class="col-md">
-                                <input type='text' placeholder='carro' class='form-control' name='carro' value="{{ carro }}">
-                            </div>
-
-                            <div class="col-md">
-                                <input type='text' placeholder='Placa' class='form-control' name='placa' value="{{ placa }}">
-                            </div>
-
-                            <div class="col-md">
-                                <input type='date' placeholder='ano' class='form-control' name='ano' value="{{ ano }}">
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div><br>
-                <div class="row" id="carros">
-
-                </div>
-
-            </div>
+            {%  include 'atualizar_cliente.html' %}
         </div>
+
+
     </div>
-    <script src="{% static 'clientes/js/clientes.js' %}"></script>
+
+
 {% endblock %}
+    {% block 'scripts' %}
+        <script src="{% static 'clientes/js/clientes.js' %}"></script>
+    {% endblock %}
