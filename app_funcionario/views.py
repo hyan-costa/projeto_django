@@ -2,7 +2,7 @@ import re
 
 from django.contrib.auth.decorators import login_required
 from .models import Funcionario
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.messages import error,success
 # def get_parametros(request):
 #     if request.method == "POST":
@@ -11,26 +11,45 @@ from django.contrib.messages import error,success
 #         return render(request, 'funcionarios.html')
 @login_required(login_url="/autenticacao/login")
 def funcionarios(request):
-    if request.method == "POST":
-        num = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
-        nome = request.POST.get('nome')
-        cpf = str(request.POST.get('cpf'))
-        cpf_valid = re.sub('[.,-]','',cpf)
-        # for caractere in cpf_valid:
-        #     if not caractere in num:
-        #         error(request,'CPF inválido!')
-        #         return render(request,'funcionarios.html')
-        funcionario = Funcionario.objects.filter(cpf=cpf)
 
+
+    if request.method == "POST":
+        nome = request.POST.get('nome')
+        funcao = request.POST.get('funcao')
+        cpf = str(request.POST.get('cpf'))
+
+        cpf_valid = re.sub('[.,-]','',cpf)
+
+        funcionario = Funcionario.objects.filter(cpf=cpf)
         if not funcionario:
-            usuario = Funcionario(nome=nome,cpf=cpf_valid)
+            usuario = Funcionario(nome=nome,cpf=cpf_valid, funcao=funcao)
             usuario.save()
-            return render(request,'funcionarios.html')
+
+            return render(request,'funcionarios.html',grid_funcionarios())
         else:
             return render(request, 'funcionarios.html')
+
     elif request.method == "GET":
-        funcionarios = Funcionario.objects.all()
-        context = dict(
-            funcionarios= funcionarios
-        )
-        return render(request, 'funcionarios.html', context)
+
+        return render(request, 'funcionarios.html', grid_funcionarios())
+
+
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Retorna o context para o grid funcionarios com os dados atualizados
+#-----------------------------------------------------------------------------------------------------------------------
+def grid_funcionarios():
+    funcionarios = Funcionario.objects.all()
+
+    #atribui o a posicao 1 da tupla para o grid
+    for funcionario in funcionarios:
+        for choices in Funcionario.FuncaoChoices.choices:
+            if choices[0] == funcionario.funcao:
+                funcionario.funcao = choices[1]
+
+    context = dict(
+        funcionarios=funcionarios,
+        choices=Funcionario.FuncaoChoices
+    )
+    return context

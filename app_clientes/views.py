@@ -16,28 +16,26 @@ import json
 #-----------------------------------------------------------------------------------------------------------------------
 @login_required(login_url="/autenticacao/login")
 def clientes(request):
+    td_clientes = models.Cliente.objects.all()
+    lista_clientes = list()
+
+
+    context = dict(
+        grid_clientes=lista_clientes,
+    )
+
 
     if request.method == 'GET':
-        td_clientes = models.Cliente.objects.all()
-        lista_clientes = list()
-
         for obj_cliente in td_clientes:
-
             carros = models.Carro.objects.filter(cliente_id=obj_cliente.pk)
             qtde_carros = len(carros)
             obj_cliente.qtde_carros = qtde_carros
             lista_clientes.append(obj_cliente)
-
-        context = dict(
-            grid_clientes=lista_clientes,
-            clientes=td_clientes
-        )
+        context['clientes'] = td_clientes
         return render(request,'clientes.html',context)
 
-
     elif request.method == 'POST':
-        context = {}
-        td_clientes = models.Cliente.objects.all()
+
         nome = request.POST.get('nome')
         sobrenome = request.POST.get('sobrenome')
         email = request.POST.get('email')
@@ -49,6 +47,7 @@ def clientes(request):
         cliente = models.Cliente.objects.filter(cpf=cpf)
 
 
+        context['clientes'] = td_clientes
         tupla = list(zip(carro,placa,ano))
 
         if cliente.exists():
@@ -65,7 +64,6 @@ def clientes(request):
             cpf=cpf
         )
         cliente.save()
-        context['clientes']=td_clientes
 
         #------------salva o cep do cliente-----------------
         cep = request.POST.get('cep')
@@ -73,10 +71,17 @@ def clientes(request):
             pk = cliente.pk
             add_cep(request,cep,pk)
 
-        #------------salva os carros
+        #------------salva os carros------------------------
         for carro, placa, ano in tupla:
             car = models.Carro(carro=carro,placa=placa,ano=ano, cliente_id=cliente.pk)
             car.save()
+        # adiciona os clientes na lista para atualizar o grid com o user salvo
+        for obj_cliente in td_clientes:
+            carros = models.Carro.objects.filter(cliente_id=obj_cliente.pk)
+            qtde_carros = len(carros)
+            obj_cliente.qtde_carros = qtde_carros
+            lista_clientes.append(obj_cliente)
+
         return render(request, 'clientes.html',context)
 
 #-----------------------------------------------------------------------------------------------------------------------

@@ -4,7 +4,7 @@ from secrets import token_hex
 from django.db import models
 from app_clientes.models import Cliente
 from app_servicos.choices import ChoicesCategoriaManutencao
-
+from app_funcionario.models import Funcionario
 class CategoriaManutencao(models.Model):
     titulo = models.CharField(max_length=3, choices=ChoicesCategoriaManutencao.choices)
     preco = models.DecimalField(max_digits=10, decimal_places=2)
@@ -20,7 +20,7 @@ class Servico(models.Model):
     finalizado = models.BooleanField(default=False)
     protocolo = models.CharField(max_length=32, null=True, blank=True)
     categoria_manutencao = models.ManyToManyField(CategoriaManutencao)
-
+    funcionario = models.ForeignKey(Funcionario, on_delete=models.SET_NULL, null=True)
     def __str__(self) ->str:
         return self.titulo
 
@@ -32,7 +32,7 @@ class Servico(models.Model):
             self.protocolo = datetime.now().strftime("%d/%m/%Y-%H:%M-") + token_hex(7)
         super(Servico, self).save(*args,**kwargs)
 #-----------------------------------------------------------------------------------------------------------------------
-#salva o obj, mas antes analisa se tem o protocolo
+#calcula preco total
 #-----------------------------------------------------------------------------------------------------------------------
     def preco_total(self):
         total = decimal.Decimal('0.0')

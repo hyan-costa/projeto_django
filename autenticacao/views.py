@@ -1,10 +1,10 @@
+from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import messages
-
 
 
 def create_user(request):
@@ -21,7 +21,7 @@ def create_user(request):
                 if len(request.POST) == 5 and senha == conf_senha:
                     User.objects.create_user(nome,email,senha)
                     context=dict(alerta='Usuário criado com sucesso!!')
-                    return render(request,'create_user.html',context)
+                    return render(request,'login.html',context)
                 else:
                     messages.error(request, 'As senhas não condisem ou você esqueceu algum campo')
                     return redirect('autenticacao_create_user')
@@ -38,9 +38,9 @@ def login_view(request):
         return render(request,'login.html')
     elif request.method == 'POST':
         try:
-            nome = request.POST.get('nome')
+            email = request.POST.get('email')
             senha = request.POST.get('senha')
-            usuario = authenticate(username=nome,password=senha)
+            usuario = authenticate_user(email=email,password=senha)
             if usuario is not None:
                 login(request,usuario)
                 return redirect('clientes')
@@ -56,3 +56,17 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login_view')
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Função para retornar o usuário, caso haja.
+#-----------------------------------------------------------------------------------------------------------------------
+def authenticate_user(email, password):
+    try:
+        user = User.objects.get(email=email)
+    except User.DoesNotExist:
+        return None
+    else:
+        if user.check_password(password):
+            return user
+    return None

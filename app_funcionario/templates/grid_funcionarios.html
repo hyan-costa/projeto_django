@@ -4,6 +4,8 @@
         <th scope="col">Código</th>
         <th scope="col">Nome</th>
         <th scope="col">CPF</th>
+        <th scope="col">Função</th>
+
 
     </tr>
     </thead>
@@ -13,6 +15,7 @@
                 <th scope="row">{{ funcionario.pk }}</th>
                 <td>{{ funcionario.nome }}</td>
                 <td>{{ funcionario.cpf }}</td>
+                <td>{{ funcionario.funcao }}</td>
             </tr>
         {% endfor %}
     </tbody>

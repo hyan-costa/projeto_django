@@ -21,12 +21,21 @@
             {% csrf_token %}
             <div class="modal-body">
                 <div class="col-md">
-                    <p>Nome:</p>
+                    <label for="nome">Nome:</label>
                     <input type="text" class="form-control" placeholder="Nome" name="nome" id="nome" required>
                 </div>
                 <div class="col-md">
-                    <p>CPF:</p>
+                    <label for="cpf">CPF:</label>
                     <input type="text" class="form-control" placeholder="cpf" name="cpf" id="cpf" required>
+                </div>
+                <div class="col-md">
+                    <label for="funcao">Função</label>
+                    <select id="funcao" class="form-control" aria-label="Default select example" name="funcao">
+                      <option selected value="">----</option>
+                        {% for funcao in choices %}
+                             <option value="{{ funcao }}">{{ funcao.label}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
             <div class="modal-footer">
