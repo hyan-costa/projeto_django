@@ -46,7 +46,6 @@ def clientes(request):
         ano = request.POST.getlist('ano')
         cliente = models.Cliente.objects.filter(cpf=cpf)
 
-
         context['clientes'] = td_clientes
         tupla = list(zip(carro,placa,ano))
 

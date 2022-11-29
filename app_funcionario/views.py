@@ -11,8 +11,6 @@ from django.contrib.messages import error,success
 #         return render(request, 'funcionarios.html')
 @login_required(login_url="/autenticacao/login")
 def funcionarios(request):
-
-
     if request.method == "POST":
         nome = request.POST.get('nome')
         funcao = request.POST.get('funcao')

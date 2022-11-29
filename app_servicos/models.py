@@ -5,6 +5,22 @@ from django.db import models
 from app_clientes.models import Cliente
 from app_servicos.choices import ChoicesCategoriaManutencao
 from app_funcionario.models import Funcionario
+
+class CONST(object):
+    class STATUS(object):
+        ABERTA = 1
+        EM_ATENDIMENTO = 2
+        AGUARDANDO_ORCAMENTO = 3
+        FINALIZADO = 4
+
+        choices = (
+            (ABERTA, 'ABERTA'),
+            (EM_ATENDIMENTO, 'EM ATENDIMENTO'),
+            (AGUARDANDO_ORCAMENTO, 'AGUARDANDO ORÇAMENTO'),
+            (FINALIZADO, 'FINALIZADO')
+        )
+
+
 class CategoriaManutencao(models.Model):
     titulo = models.CharField(max_length=3, choices=ChoicesCategoriaManutencao.choices)
     preco = models.DecimalField(max_digits=10, decimal_places=2)
@@ -17,7 +33,7 @@ class Servico(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True)
     data_inicio = models.DateField(null=True)
     data_entrega = models.DateField(null=True)
-    finalizado = models.BooleanField(default=False)
+    status = models.IntegerField(max_length=1, verbose_name='Status', choices=CONST.STATUS.choices)
     protocolo = models.CharField(max_length=32, null=True, blank=True)
     categoria_manutencao = models.ManyToManyField(CategoriaManutencao)
     funcionario = models.ForeignKey(Funcionario, on_delete=models.SET_NULL, null=True)
