@@ -6,35 +6,51 @@
 
 
 {% block 'dashboard' %}
+    <style>
+        .flex-box{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .content-box{
+            text-align: center;
+            padding-top: 15%;
+        }
+    </style>
 
-    <div id="add_usuario" class="container">
-        <div class="col-md">
-            {% if messages %}
-                {% for m in messages %}
-                    <div class="alert alert-warning" role="alert">
-                      <p style="text-align: center">{{ m }}</p>
-                    </div>
-                {% endfor %}
-            {% elif alerta %}
-                <div class="alert alert-warning" role="alert">
-                  <p style="text-align: center">{{ alerta }}</p>
+    <div class=" flex-box">
+        <div class="login-page content-box" >
+            <div id="add_usuario" class="container">
+                <div class="col-md">
+                    {% if messages %}
+                        {% for m in messages %}
+                            <div class="alert {{ class_alerta }}" role="alert">
+                              <p style="text-align: center">{{ m }}</p>
+                            </div>
+                        {% endfor %}
+                    {% elif alerta %}
+                        <div class="alert  {{ class_alerta }}" role="alert">
+                          <p style="text-align: center">{{ alerta }}</p>
+                        </div>
+                    {% endif %}
                 </div>
-            {% endif %}
-        </div>
-        <form action="{% url "login_view" %}" method="POST">
-            {% csrf_token %}
-            <div class="col-md">
-              <p>Nome:</p>
-              <input type="email" class="form-control" placeholder="Email" name="email" required>
             </div>
-            <br>
-            <div class="col-md">
-              <p>Senha:</p>
-              <input type="password" class="form-control" placeholder="senha" name="senha" required>
-            </div>
-            <br>
-            <button type="submit" class="btn btn-outline-success" style="width:90;height:10">Acessar</button>
-        </form>
-    </div>
 
+            <form class="p-3 mt-3" action="{% url "login_view" %}" method="POST">
+                {% csrf_token %}
+                <div class="col-md">
+                  <p>Email:</p>
+                  <input type="email" class="form-control" placeholder="Email" name="email" required>
+                </div>
+                <br>
+                <div class="col-md">
+                  <p>Senha:</p>
+                  <input type="password" class="form-control" placeholder="senha" name="senha" required>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-outline-success" style="width:90;height:10">Acessar</button>
+
+            </form>
+        </div>
+    </div>
 {% endblock %}

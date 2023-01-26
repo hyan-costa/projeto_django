@@ -20,18 +20,20 @@ def create_user(request):
             if User.objects.filter(username=nome) is not None:
                 if len(request.POST) == 5 and senha == conf_senha:
                     User.objects.create_user(nome,email,senha)
-                    context=dict(alerta='Usuário criado com sucesso!!')
+                    context=dict(alerta='Usuário criado com sucesso!!', class_alerta='alert-success')
                     return render(request,'login.html',context)
                 else:
-                    messages.error(request, 'As senhas não condisem ou você esqueceu algum campo')
-                    return redirect('autenticacao_create_user')
+                    context = dict(class_alerta='alert-warning')
+                    messages.error(request, 'As senhas não condisem!!')
+                    return render(request, 'create_user.html', context)
             else:
+                    context = dict(class_alerta='alert-warning')
                     messages.error(request, 'Usuário já existe!!')
-                    return redirect('autenticacao_create_user')
+                    return render(request, 'create_user.html', context)
 
         except:
             messages.error(request,'Erro, contate o suporte técnico!')
-            return redirect('autenticacao_create_user')
+            return render(request, 'create_user.html')
 
 def login_view(request):
     if request.method == 'GET':

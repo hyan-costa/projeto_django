@@ -7,10 +7,23 @@
 {% block 'dashboard' %}
     <div class="container">
         <h2>Funcionários</h2><br>
-        <!-- Botão para acionar modal -->
-        <button style="color: #FFFFFF"  type="button" class="btn btn-modal" data-toggle="modal" data-target="#modalfuncionarios">
-          Incluir
-        </button>
+{#        <button style="color: #FFFFFF"  type="button" class="btn btn-modal" data-toggle="modal" data-target="#modalfuncionarios">#}
+{#          Incluir#}
+{#        </button>#}
+        <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Ações
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <button  type="button" class="btn btn-modal" data-toggle="modal" data-target="#modalfuncionarios">
+                  Incluir
+                </button>
+                <hr>
+                <button  type="button" class="btn btn-modal" data-toggle="modal">
+                  Impimir
+                </button>
+            </div>
+          </div>
     </div>
     <div class="container">
         {% include 'grid_funcionarios.html' %}

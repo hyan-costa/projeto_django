@@ -15,7 +15,7 @@
                 <th scope="row">{{ funcionario.pk }}</th>
                 <td>{{ funcionario.nome }}</td>
                 <td>{{ funcionario.cpf }}</td>
-                <td>{{ funcionario.funcao }}</td>
+                <td>{{ funcionario.get_funcao_display }}</td>
             </tr>
         {% endfor %}
     </tbody>

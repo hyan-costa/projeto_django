@@ -10,14 +10,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
         </div>
-        {% if messages %}
-            {% for m in messages %}
-                <div class="alert alert-warning" role="alert">
-                  <p style="text-align: center">{{ m }}</p>
-                </div>
-            {% endfor %}
-        {% endif %}
-        <form action="{% url "funcionarios" %}" method="POST">
+        <form class="needs-validation" action="{% url "funcionarios" %}" method="POST">
             {% csrf_token %}
             <div class="modal-body">
                 <div class="col-md">
@@ -26,7 +19,9 @@
                 </div>
                 <div class="col-md">
                     <label for="cpf">CPF:</label>
-                    <input type="text" class="form-control" placeholder="cpf" name="cpf" id="cpf" required>
+                    <input type="text" class="form-control" placeholder="cpf" name="cpf"  id="cpf" required>
+                    <div id="validacaoCpf"></div>
+
                 </div>
                 <div class="col-md">
                     <label for="funcao">Função</label>

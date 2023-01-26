@@ -6,45 +6,58 @@
 
 
 {% block 'dashboard' %}
-
-    <div id="add_usuario" class="container">
-        <div class="col-md">
-            {% if messages %}
-                {% for m in messages %}
-                    <div class="alert alert-warning" role="alert">
-                      <p style="text-align: center">{{ m }}</p>
-                    </div>
-                {% endfor %}
-            {% elif alerta %}
-                <div class="alert alert-warning" role="alert">
-                  <p style="text-align: center">{{ alerta }}</p>
+    <style>
+        .flex-box{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 50%;
+        }
+        .content-box{
+            text-align: center;
+            padding-top: 15%;
+        }
+    </style>
+    <div class="flex-box">
+        <div id="add_usuario" class="login_page content-box">
+            <div class="col-md">
+                    {% if messages %}
+                        {% for m in messages %}
+                            <div class="alert {{ class_alerta }}" role="alert">
+                              <p style="text-align: center">{{ m }}</p>
+                            </div>
+                        {% endfor %}
+                    {% elif alerta %}
+                        <div class="alert  {{ class_alerta }}" role="alert">
+                          <p style="text-align: center">{{ alerta }}</p>
+                        </div>
+                    {% endif %}
+            </div>
+            <form class="p-3 mt-3" action="{% url "create_user" %}" method="POST">
+                {% csrf_token %}
+                <div class="col-md">
+                  <p>Nome:</p>
+                  <input type="text" class="form-control" placeholder="Nome" name="nome" required>
                 </div>
-            {% endif %}
+                <br>
+                <div class="col-md">
+                  <p>Email:</p>
+                  <input type="email" class="form-control" placeholder="email" name="email" required>
+                </div>
+                <br>
+                <div class="col-md">
+                  <p>Senha:</p>
+                  <input type="password" class="form-control" placeholder="senha" name="senha" required>
+                </div>
+                <br>
+                <div class="col-md">
+                  <p>Confirme a Senha:</p>
+                  <input type="password" class="form-control" placeholder="confirme a senha" name="confirma_senha">
+                </div>
+                <br>
+                <button type="submit" class="btn btn-outline-success" style="width:90;height:10"> criar</button>
+            </form>
         </div>
-        <form action="{% url "create_user" %}" method="POST">
-            {% csrf_token %}
-            <div class="col-md">
-              <p>Nome:</p>
-              <input type="text" class="form-control" placeholder="Nome" name="nome" required>
-            </div>
-            <br>
-            <div class="col-md">
-              <p>Email:</p>
-              <input type="email" class="form-control" placeholder="email" name="email" required>
-            </div>
-            <br>
-            <div class="col-md">
-              <p>Senha:</p>
-              <input type="password" class="form-control" placeholder="senha" name="senha" required>
-            </div>
-            <br>
-            <div class="col-md">
-              <p>Confirme a Senha:</p>
-              <input type="password" class="form-control" placeholder="confirme a senha" name="confirma_senha">
-            </div>
-            <br>
-            <button type="submit" class="btn btn-outline-success" style="width:90;height:10"> criar</button>
-        </form>
     </div>
 
 {% endblock %}
