@@ -17,7 +17,8 @@ def create_user(request):
         conf_senha = request.POST.get('confirma_senha')
 
         try:
-            if User.objects.filter(username=nome) is not None:
+            user = User.objects.filter(email=email)
+            if not user:
                 if len(request.POST) == 5 and senha == conf_senha:
                     User.objects.create_user(nome,email,senha)
                     context=dict(alerta='Usuário criado com sucesso!!', class_alerta='alert-success')
@@ -43,12 +44,14 @@ def login_view(request):
             email = request.POST.get('email')
             senha = request.POST.get('senha')
             usuario = authenticate_user(email=email,password=senha)
+
             if usuario is not None:
                 login(request,usuario)
                 return redirect('clientes')
             else:
                 messages.error(request,'usuário ou senha inválidos!!')
-                return render(request,'login.html')
+                context = dict(class_alerta='alert-warning')
+                return render(request,'login.html', context)
         except:
             return render(request,'login.html')
 
@@ -68,7 +71,6 @@ def authenticate_user(email, password):
         user = User.objects.get(email=email)
     except User.DoesNotExist:
         return None
-    else:
-        if user.check_password(password):
-            return user
+    if user.check_password(password):
+        return user
     return None
