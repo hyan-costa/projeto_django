@@ -8,8 +8,9 @@ from django.contrib import messages
 
 
 def create_user(request):
+    context = dict(not_sessao=True)
     if request.method == 'GET':
-        return render(request, 'create_user.html')
+        return render(request, 'create_user.html', context)
     elif request.method == 'POST':
         nome = request.POST.get('nome')
         email = request.POST.get('email')
@@ -21,24 +22,26 @@ def create_user(request):
             if not user:
                 if len(request.POST) == 5 and senha == conf_senha:
                     User.objects.create_user(nome,email,senha)
-                    context=dict(alerta='Usuário criado com sucesso!!', class_alerta='alert-success')
+                    context['alerta'] = 'Usuário criado com sucesso!!'
+                    context['class_alerta'] = 'alert-success'
                     return render(request,'login.html',context)
                 else:
-                    context = dict(class_alerta='alert-warning')
+                    context['class_alerta'] = 'alert-warning'
                     messages.error(request, 'As senhas não condisem!!')
                     return render(request, 'create_user.html', context)
             else:
-                    context = dict(class_alerta='alert-warning')
+                    context['class_alerta'] = 'alert-warning'
                     messages.error(request, 'Usuário já existe!!')
                     return render(request, 'create_user.html', context)
 
         except:
             messages.error(request,'Erro, contate o suporte técnico!')
-            return render(request, 'create_user.html')
+            return render(request, 'create_user.html', context)
 
 def login_view(request):
+    context = dict(not_sessao=True)
     if request.method == 'GET':
-        return render(request,'login.html')
+        return render(request,'login.html', context)
     elif request.method == 'POST':
         try:
             email = request.POST.get('email')
@@ -50,10 +53,11 @@ def login_view(request):
                 return redirect('clientes')
             else:
                 messages.error(request,'usuário ou senha inválidos!!')
-                context = dict(class_alerta='alert-warning')
+                context['class_alerta'] ='alert-warning'
+
                 return render(request,'login.html', context)
         except:
-            return render(request,'login.html')
+            return render(request,'login.html', context)
 
 
 

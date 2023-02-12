@@ -5,6 +5,9 @@
   box-sizing: border-box;
   font-family: "Poppins" , sans-serif;
 }
+body{
+    background:#2A2A2A;
+}
 .sidebar{
   position: fixed;
   left: 0;

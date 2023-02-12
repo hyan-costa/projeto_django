@@ -7,6 +7,9 @@
 
 {% block 'dashboard' %}
     <style>
+        a{
+            font-size: 15px;
+        }
         .flex-box{
             display: flex;
             align-items: center;
@@ -49,7 +52,9 @@
                 </div>
                 <br>
                 <button type="submit" class="btn btn-outline-success" style="width:90;height:10">Acessar</button>
-
+                <br>
+                <br>
+                <a href="{% url 'create_user' %}"> Criar Usuário</a>
             </form>
         </div>
     </div>

@@ -1,12 +1,11 @@
-<table id="table_id" class="table table-dark" >
+<table id="table_id" class="table table-dark paginated" >
     <thead>
     <tr>
         <th scope="col">Código</th>
         <th scope="col">Nome</th>
         <th scope="col">CPF</th>
         <th scope="col">Função</th>
-
-
+        <th scope="col">Ações Individuais</th>
     </tr>
     </thead>
     <tbody>
@@ -16,6 +15,22 @@
                 <td>{{ funcionario.nome }}</td>
                 <td>{{ funcionario.cpf }}</td>
                 <td>{{ funcionario.get_funcao_display }}</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fa-solid fa-plus"></i>
+                        </button>
+                        <div style="text-align: center" class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                          <a id="apagar" title="Excluir Funcionário" class="dropdown-item acoes" onclick="apaga_funcionario({{ funcionario.pk }})" href="javascript:void(0)">
+                              <i class="fa-solid fa-trash-can"></i> Apagar
+                          </a>
+                          <a id="alterar" title="Alterar Funcionário" class="dropdown-item acoes" href="javascript:void(0)" onclick="editar_funcionario({{ funcionario.pk }})"
+                             class="btn btn-modal" data-toggle="modal" data-target="#modalfuncionarios">
+                              <i class="fa-solid fa-pencil"></i> Editar
+                          </a>
+                        </div>
+                    </div>
+                </td>
             </tr>
         {% endfor %}
     </tbody>

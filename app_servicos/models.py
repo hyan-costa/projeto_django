@@ -33,7 +33,7 @@ class Servico(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True)
     data_inicio = models.DateField(null=True)
     data_entrega = models.DateField(null=True)
-    status = models.IntegerField(max_length=1, verbose_name='Status', choices=CONST.STATUS.choices)
+    status = models.IntegerField( verbose_name='Status', choices=CONST.STATUS.choices)
     protocolo = models.CharField(max_length=32, null=True, blank=True)
     categoria_manutencao = models.ManyToManyField(CategoriaManutencao)
     funcionario = models.ForeignKey(Funcionario, on_delete=models.SET_NULL, null=True)
